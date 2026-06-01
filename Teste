@@ -1,0 +1,1377 @@
+[33mcommit 3f7b1de62ec1b58b1419b809c73a775f9121b321[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mMenuNavegação[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Nickolas Augusto <nickolasalmeida.aug@gmail.com>
+Date:   Thu May 28 14:28:18 2026 -0300
+
+    Implementação inicial do menu de navegação
+
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 1196e3d..7ceb9e1 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -8,8 +8,12 @@[m
+       "name": "sistema-ecommerce",[m
+       "version": "0.0.0",[m
+       "dependencies": {[m
+[32m+[m[32m        "@flaticon/flaticon-uicons": "^3.3.1",[m
+[32m+[m[32m        "@tailwindcss/vite": "^4.3.0",[m
+[32m+[m[32m        "lucide-react": "^1.17.0",[m
+         "react": "^19.2.6",[m
+[31m-        "react-dom": "^19.2.6"[m
+[32m+[m[32m        "react-dom": "^19.2.6",[m
+[32m+[m[32m        "tailwindcss": "^4.3.0"[m
+       },[m
+       "devDependencies": {[m
+         "@babel/core": "^7.29.0",[m
+[36m@@ -274,7 +278,6 @@[m
+       "version": "1.10.0",[m
+       "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz",[m
+       "integrity": "sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -286,7 +289,6 @@[m
+       "version": "1.10.0",[m
+       "resolved": "https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.10.0.tgz",[m
+       "integrity": "sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -297,7 +299,6 @@[m
+       "version": "1.2.1",[m
+       "resolved": "https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.1.tgz",[m
+       "integrity": "sha512-uTII7OYF+/Mes/MrcIOYp5yOtSMLBWSIoLPpcgwipoiKbli6k322tcoFsxoIIxPDqW01SQGAgko4EzZi2BNv2w==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -432,6 +433,15 @@[m
+         "node": "^20.19.0 || ^22.13.0 || >=24"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/@flaticon/flaticon-uicons": {[m
+[32m+[m[32m      "version": "3.3.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@flaticon/flaticon-uicons/-/flaticon-uicons-3.3.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-WN2zuECCdjuGBQrjzN0kpeSygzC5fgF8Q7pDR+FUuGtYWczSdIhIwoD+/fKBEfwqKfNIMZ1WouidevGQ4OJORg==",[m
+[32m+[m[32m      "license": "SEE LICENSE IN LICENSE",[m
+[32m+[m[32m      "optionalDependencies": {[m
+[32m+[m[32m        "esbuild-linux-64": "^0.14.5"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/@humanfs/core": {[m
+       "version": "0.19.2",[m
+       "resolved": "https://registry.npmjs.org/@humanfs/core/-/core-0.19.2.tgz",[m
+[36m@@ -502,7 +512,6 @@[m
+       "version": "0.3.13",[m
+       "resolved": "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz",[m
+       "integrity": "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "@jridgewell/sourcemap-codec": "^1.5.0",[m
+[36m@@ -513,7 +522,6 @@[m
+       "version": "2.3.5",[m
+       "resolved": "https://registry.npmjs.org/@jridgewell/remapping/-/remapping-2.3.5.tgz",[m
+       "integrity": "sha512-LI9u/+laYG4Ds1TDKSJW2YPrIlcVYOwi2fUC6xB43lueCjgxV4lffOCZCtYFiH6TNOX+tQKXx97T4IKHbhyHEQ==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "@jridgewell/gen-mapping": "^0.3.5",[m
+[36m@@ -524,7 +532,6 @@[m
+       "version": "3.1.2",[m
+       "resolved": "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz",[m
+       "integrity": "sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "engines": {[m
+         "node": ">=6.0.0"[m
+[36m@@ -534,14 +541,12 @@[m
+       "version": "1.5.5",[m
+       "resolved": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.5.5.tgz",[m
+       "integrity": "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==",[m
+[31m-      "dev": true,[m
+       "license": "MIT"[m
+     },[m
+     "node_modules/@jridgewell/trace-mapping": {[m
+       "version": "0.3.31",[m
+       "resolved": "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz",[m
+       "integrity": "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "@jridgewell/resolve-uri": "^3.1.0",[m
+[36m@@ -552,7 +557,6 @@[m
+       "version": "1.1.4",[m
+       "resolved": "https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.1.4.tgz",[m
+       "integrity": "sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -903,14 +907,281 @@[m
+       "version": "1.0.1",[m
+       "resolved": "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.1.tgz",[m
+       "integrity": "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==",[m
+[31m-      "dev": true,[m
+       "license": "MIT"[m
+     },[m
+[32m+[m[32m    "node_modules/@tailwindcss/node": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/node/-/node-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-aFb4gUhFOgdh9AXo4IzBEOzBkkAxm9VigwDJnMIYv3lcfXCJVesNfbEaBl4BNgVRyid92AmdviqwBUBRKSeY3g==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@jridgewell/remapping": "^2.3.5",[m
+[32m+[m[32m        "enhanced-resolve": "^5.21.0",[m
+[32m+[m[32m        "jiti": "^2.6.1",[m
+[32m+[m[32m        "lightningcss": "1.32.0",[m
+[32m+[m[32m        "magic-string": "^0.30.21",[m
+[32m+[m[32m        "source-map-js": "^1.2.1",[m
+[32m+[m[32m        "tailwindcss": "4.3.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide/-/oxide-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-F7HZGBeN9I0/AuuJS5PwcD8xayx5ri5GhjYUDBEVYUkexyA/giwbDNjRVrxSezE3T250OU2K/wp/ltWx3UOefg==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "optionalDependencies": {[m
+[32m+[m[32m        "@tailwindcss/oxide-android-arm64": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-darwin-arm64": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-darwin-x64": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-freebsd-x64": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-linux-arm-gnueabihf": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-linux-arm64-gnu": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-linux-arm64-musl": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-linux-x64-gnu": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-linux-x64-musl": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-wasm32-wasi": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-win32-arm64-msvc": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide-win32-x64-msvc": "4.3.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-android-arm64": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-android-arm64/-/oxide-android-arm64-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-TJPiq67tKlLuObP6RkwvVGDoxCMBVtDgKkLfa/uyj7/FyxvQwHS+UOnVrXXgbEsfUaMgiVvC4KbJnRr26ho4Ng==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "android"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-darwin-arm64": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-darwin-arm64/-/oxide-darwin-arm64-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-oMN/WZRb+SO37BmUElEgeEWuU8E/HXRkiODxJxLe1UTHVXLrdVSgfaJV7pSlhRGMSOiXLuxTIjfsF3wYvz8cgQ==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "darwin"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-darwin-x64": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-darwin-x64/-/oxide-darwin-x64-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-N6CUmu4a6bKVADfw77p+iw6Yd9Q3OBhe0veaDX+QazfuVYlQsHfDgxBrsjQ/IW+zywL8mTrNd0SdJT/zgtvMdA==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "darwin"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-freebsd-x64": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-freebsd-x64/-/oxide-freebsd-x64-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-zDL5hBkQdH5C6MpqbK3gQAgP80tsMwSI26vjOzjJtNCMUo0lFgOItzHKBIupOZNQxt3ouPH7RPhvNhiTfCe5CQ==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "freebsd"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-linux-arm-gnueabihf": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-linux-arm-gnueabihf/-/oxide-linux-arm-gnueabihf-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-R06HdNi7A7OEoMsf6d4tjZ71RCWnZQPHj2mnotSFURjNLdBC+cIgXQ7l81CqeoiQftjf6OOblxXMInMgN2VzMA==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-linux-arm64-gnu": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-linux-arm64-gnu/-/oxide-linux-arm64-gnu-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-qTJHELX8jetjhRQHCLilkVLmybpzNQAtaI/gaoVoidn/ufbNDbAo8KlK2J+yPoc8wQxvDxCmh/5lr8nC1+lTbg==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "libc": [[m
+[32m+[m[32m        "glibc"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-linux-arm64-musl": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-linux-arm64-musl/-/oxide-linux-arm64-musl-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Z6sukiQsngnWO+l39X4pPbiWT81IC+PLKF+PHxIlyZbGNb9MODfYlXEVlFvej5BOZInWX01kVyzeLvHsXhfczQ==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "libc": [[m
+[32m+[m[32m        "musl"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-linux-x64-gnu": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-gnu/-/oxide-linux-x64-gnu-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-DRNdQRpSGzRGfARVuVkxvM8Q12nh19l4BF/G7zGA1oe+9wcC6saFBHTISrpIcKzhiXtSrlSrluCfvMuledoCTQ==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "libc": [[m
+[32m+[m[32m        "glibc"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-linux-x64-musl": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-musl/-/oxide-linux-x64-musl-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Z0IADbDo8bh6I7h2IQMx601AdXBLfFpEdUotft86evd/8ZPflZe9COPO8Q1vw+pfLWIUo9zN/JGZvwuAJqduqg==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "libc": [[m
+[32m+[m[32m        "musl"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-wasm32-wasi": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-wasm32-wasi/-/oxide-wasm32-wasi-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-HNZGOUxEmElksYR7S6sC5jTeNGpobAsy9u7Gu0AskJ8/20FR9GqebUyB+HBcU/ax6BHuiuJi+Oda4B+YX6H1yA==",[m
+[32m+[m[32m      "bundleDependencies": [[m
+[32m+[m[32m        "@napi-rs/wasm-runtime",[m
+[32m+[m[32m        "@emnapi/core",[m
+[32m+[m[32m        "@emnapi/runtime",[m
+[32m+[m[32m        "@tybys/wasm-util",[m
+[32m+[m[32m        "@emnapi/wasi-threads",[m
+[32m+[m[32m        "tslib"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "wasm32"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@emnapi/core": "^1.10.0",[m
+[32m+[m[32m        "@emnapi/runtime": "^1.10.0",[m
+[32m+[m[32m        "@emnapi/wasi-threads": "^1.2.1",[m
+[32m+[m[32m        "@napi-rs/wasm-runtime": "^1.1.4",[m
+[32m+[m[32m        "@tybys/wasm-util": "^0.10.1",[m
+[32m+[m[32m        "tslib": "^2.8.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=14.0.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-win32-arm64-msvc": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-win32-arm64-msvc/-/oxide-win32-arm64-msvc-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Pe+RPVTi1T+qymuuRpcdvwSVZjnll/f7n8gBxMMh3xLTctMDKqpdfGimbMyioqtLhUYZxdJ9wGNhV7MKHvgZsQ==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "arm64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "win32"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/oxide-win32-x64-msvc": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/oxide-win32-x64-msvc/-/oxide-win32-x64-msvc-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Mvrf2kXW/yeW/OTezZlCGOirXRcUuLIBx/5Y12BaPM7wJoryG6dfS/NJL8aBPqtTEx/Vm4T4vKzFUcKDT+TKUA==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "win32"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 20"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@tailwindcss/vite": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-t6J3OrB5Fc0ExuhohouH0fWUGMYL6PTLhW+E7zIk/pdbnJARZDCwjBznFnkh5ynRnIRSI4YjtTH0t6USjJISrw==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@tailwindcss/node": "4.3.0",[m
+[32m+[m[32m        "@tailwindcss/oxide": "4.3.0",[m
+[32m+[m[32m        "tailwindcss": "4.3.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "vite": "^5.2.0 || ^6 || ^7 || ^8"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/@tybys/wasm-util": {[m
+       "version": "0.10.2",[m
+       "resolved": "https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.2.tgz",[m
+       "integrity": "sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -987,7 +1258,7 @@[m
+       "version": "24.12.4",[m
+       "resolved": "https://registry.npmjs.org/@types/node/-/node-24.12.4.tgz",[m
+       "integrity": "sha512-GUUEShf+PBCGW2KaXwcIt3Yk+e3pkKwWKb9GSyM9WQVE+ep2jzmHdGsHzu4wgcZy5fN9FBdVzjpBQsYlpfpgLA==",[m
+[31m-      "dev": true,[m
+[32m+[m[32m      "devOptional": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "undici-types": "~7.16.0"[m
+[36m@@ -1481,7 +1752,6 @@[m
+       "version": "2.1.2",[m
+       "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",[m
+       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",[m
+[31m-      "dev": true,[m
+       "license": "Apache-2.0",[m
+       "engines": {[m
+         "node": ">=8"[m
+[36m@@ -1494,6 +1764,35 @@[m
+       "dev": true,[m
+       "license": "ISC"[m
+     },[m
+[32m+[m[32m    "node_modules/enhanced-resolve": {[m
+[32m+[m[32m      "version": "5.22.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-5.22.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-xYcDWrpELkFzz9SpZ3PlI6Eu6eD93Yf0WLDRxikGhWJ3MAir2SNZTIVCVZqZ/NUyx8AdMc2gT9C0gPiw18kG+A==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "graceful-fs": "^4.2.4",[m
+[32m+[m[32m        "tapable": "^2.3.3"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=10.13.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/esbuild-linux-64": {[m
+[32m+[m[32m      "version": "0.14.54",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.14.54.tgz",[m
+[32m+[m[32m      "integrity": "sha512-EgjAgH5HwTbtNsTqQOXWApBaPVdDn7XcK+/PtJwZLT1UmpLoznPd8c5CxqsH2dQK3j05YsB3L17T8vE7cp4cCg==",[m
+[32m+[m[32m      "cpu": [[m
+[32m+[m[32m        "x64"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "optional": true,[m
+[32m+[m[32m      "os": [[m
+[32m+[m[32m        "linux"[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=12"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/escalade": {[m
+       "version": "3.2.0",[m
+       "resolved": "https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz",[m
+[36m@@ -1724,7 +2023,6 @@[m
+       "version": "6.5.0",[m
+       "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",[m
+       "integrity": "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "engines": {[m
+         "node": ">=12.0.0"[m
+[36m@@ -1793,7 +2091,6 @@[m
+       "version": "2.3.3",[m
+       "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",[m
+       "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",[m
+[31m-      "dev": true,[m
+       "hasInstallScript": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+[36m@@ -1840,6 +2137,12 @@[m
+         "url": "https://github.com/sponsors/sindresorhus"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/graceful-fs": {[m
+[32m+[m[32m      "version": "4.2.11",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",[m
+[32m+[m[32m      "integrity": "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==",[m
+[32m+[m[32m      "license": "ISC"[m
+[32m+[m[32m    },[m
+     "node_modules/hermes-estree": {[m
+       "version": "0.25.1",[m
+       "resolved": "https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.25.1.tgz",[m
+[36m@@ -1907,6 +2210,15 @@[m
+       "dev": true,[m
+       "license": "ISC"[m
+     },[m
+[32m+[m[32m    "node_modules/jiti": {[m
+[32m+[m[32m      "version": "2.7.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/jiti/-/jiti-2.7.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "bin": {[m
+[32m+[m[32m        "jiti": "lib/jiti-cli.mjs"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/js-tokens": {[m
+       "version": "4.0.0",[m
+       "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",[m
+[36m@@ -1989,7 +2301,6 @@[m
+       "version": "1.32.0",[m
+       "resolved": "https://registry.npmjs.org/lightningcss/-/lightningcss-1.32.0.tgz",[m
+       "integrity": "sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==",[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "dependencies": {[m
+         "detect-libc": "^2.0.3"[m
+[36m@@ -2022,7 +2333,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2043,7 +2353,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2064,7 +2373,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2085,7 +2393,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2106,7 +2413,6 @@[m
+       "cpu": [[m
+         "arm"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2127,7 +2433,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -2151,7 +2456,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "musl"[m
+       ],[m
+[36m@@ -2175,7 +2479,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -2199,7 +2502,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "musl"[m
+       ],[m
+[36m@@ -2223,7 +2525,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2244,7 +2545,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MPL-2.0",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2284,6 +2584,24 @@[m
+         "yallist": "^3.0.2"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/lucide-react": {[m
+[32m+[m[32m      "version": "1.17.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/lucide-react/-/lucide-react-1.17.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-9FA9evdox/JQL5PT57fdA1x/yg8T7knJ98+zjTL3UfKza6pflQUUh3XtaQIHKvnsJw1lmsEyHVlt5jchYxOQ5w==",[m
+[32m+[m[32m      "license": "ISC",[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/magic-string": {[m
+[32m+[m[32m      "version": "0.30.21",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/magic-string/-/magic-string-0.30.21.tgz",[m
+[32m+[m[32m      "integrity": "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@jridgewell/sourcemap-codec": "^1.5.5"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/minimatch": {[m
+       "version": "10.2.5",[m
+       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.5.tgz",[m
+[36m@@ -2311,7 +2629,6 @@[m
+       "version": "3.3.12",[m
+       "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.12.tgz",[m
+       "integrity": "sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==",[m
+[31m-      "dev": true,[m
+       "funding": [[m
+         {[m
+           "type": "github",[m
+[36m@@ -2417,14 +2734,12 @@[m
+       "version": "1.1.1",[m
+       "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",[m
+       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==",[m
+[31m-      "dev": true,[m
+       "license": "ISC"[m
+     },[m
+     "node_modules/picomatch": {[m
+       "version": "4.0.4",[m
+       "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.4.tgz",[m
+       "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "engines": {[m
+         "node": ">=12"[m
+[36m@@ -2437,7 +2752,6 @@[m
+       "version": "8.5.15",[m
+       "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.15.tgz",[m
+       "integrity": "sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==",[m
+[31m-      "dev": true,[m
+       "funding": [[m
+         {[m
+           "type": "opencollective",[m
+[36m@@ -2581,17 +2895,34 @@[m
+       "version": "1.2.1",[m
+       "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",[m
+       "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",[m
+[31m-      "dev": true,[m
+       "license": "BSD-3-Clause",[m
+       "engines": {[m
+         "node": ">=0.10.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/tailwindcss": {[m
+[32m+[m[32m      "version": "4.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-y6nxMGB1nMW9R6k96e5gdIFzcfL/gTJRNaqGes1YvkLnPVXzWgbqFF2yLC0T8G774n24cx3Pe8XrKoniCOAH+Q==",[m
+[32m+[m[32m      "license": "MIT"[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/tapable": {[m
+[32m+[m[32m      "version": "2.3.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/tapable/-/tapable-2.3.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=6"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "funding": {[m
+[32m+[m[32m        "type": "opencollective",[m
+[32m+[m[32m        "url": "https://opencollective.com/webpack"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/tinyglobby": {[m
+       "version": "0.2.16",[m
+       "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.16.tgz",[m
+       "integrity": "sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "fdir": "^6.5.0",[m
+[36m@@ -2621,7 +2952,6 @@[m
+       "version": "2.8.1",[m
+       "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",[m
+       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",[m
+[31m-      "dev": true,[m
+       "license": "0BSD",[m
+       "optional": true[m
+     },[m
+[36m@@ -2680,7 +3010,7 @@[m
+       "version": "7.16.0",[m
+       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",[m
+       "integrity": "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==",[m
+[31m-      "dev": true,[m
+[32m+[m[32m      "devOptional": true,[m
+       "license": "MIT"[m
+     },[m
+     "node_modules/update-browserslist-db": {[m
+[36m@@ -2728,7 +3058,6 @@[m
+       "version": "8.0.14",[m
+       "resolved": "https://registry.npmjs.org/vite/-/vite-8.0.14.tgz",[m
+       "integrity": "sha512-s4BJJ+5y1pYL6Otw51FHhVJQhPnuRinKig64g/1+EUNaJsd3gCKdD31IPFvswUgW9/60QT9oFHbZHbQK5imcxw==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "lightningcss": "^1.32.0",[m
+[36m@@ -2806,7 +3135,6 @@[m
+       "version": "0.132.0",[m
+       "resolved": "https://registry.npmjs.org/@oxc-project/types/-/types-0.132.0.tgz",[m
+       "integrity": "sha512-FESMOxil5Se014ui/Eq8fT5uHJo6nIRwH0PfJrZJXs6Gek3ZVFOrpUv3YIZT20m+extU98Hg1Ym72U58rlsxUQ==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "funding": {[m
+         "url": "https://github.com/sponsors/Boshen"[m
+[36m@@ -2819,7 +3147,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2836,7 +3163,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2853,7 +3179,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2870,7 +3195,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2887,7 +3211,6 @@[m
+       "cpu": [[m
+         "arm"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -2904,7 +3227,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -2924,7 +3246,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "musl"[m
+       ],[m
+[36m@@ -2944,7 +3265,6 @@[m
+       "cpu": [[m
+         "ppc64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -2964,7 +3284,6 @@[m
+       "cpu": [[m
+         "s390x"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -2984,7 +3303,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "glibc"[m
+       ],[m
+[36m@@ -3004,7 +3322,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "libc": [[m
+         "musl"[m
+       ],[m
+[36m@@ -3024,7 +3341,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -3041,7 +3357,6 @@[m
+       "cpu": [[m
+         "wasm32"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "dependencies": {[m
+[36m@@ -3060,7 +3375,6 @@[m
+       "cpu": [[m
+         "arm64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -3077,7 +3391,6 @@[m
+       "cpu": [[m
+         "x64"[m
+       ],[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "optional": true,[m
+       "os": [[m
+[36m@@ -3091,7 +3404,6 @@[m
+       "version": "1.0.2",[m
+       "resolved": "https://registry.npmjs.org/rolldown/-/rolldown-1.0.2.tgz",[m
+       "integrity": "sha512-oZx5zVDtVB44AW3eaifgDml1gWRDZGvjcfdxonE4swNPG98PrrXjaO/KrnUjzlMnztCCRVlUueA1kCXhARGk6g==",[m
+[31m-      "dev": true,[m
+       "license": "MIT",[m
+       "dependencies": {[m
+         "@oxc-project/types": "=0.132.0",[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex 1781587..be283e6 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -10,8 +10,12 @@[m
+     "preview": "vite preview"[m
+   },[m
+   "dependencies": {[m
+[32m+[m[32m    "@flaticon/flaticon-uicons": "^3.3.1",[m
+[32m+[m[32m    "@tailwindcss/vite": "^4.3.0",[m
+[32m+[m[32m    "lucide-react": "^1.17.0",[m
+     "react": "^19.2.6",[m
+[31m-    "react-dom": "^19.2.6"[m
+[32m+[m[32m    "react-dom": "^19.2.6",[m
+[32m+[m[32m    "tailwindcss": "^4.3.0"[m
+   },[m
+   "devDependencies": {[m
+     "@babel/core": "^7.29.0",[m
+[1mdiff --git a/src/App.css b/src/App.css[m
+[1mdeleted file mode 100644[m
+[1mindex f90339d..0000000[m
+[1m--- a/src/App.css[m
+[1m+++ /dev/null[m
+[36m@@ -1,184 +0,0 @@[m
+[31m-.counter {[m
+[31m-  font-size: 16px;[m
+[31m-  padding: 5px 10px;[m
+[31m-  border-radius: 5px;[m
+[31m-  color: var(--accent);[m
+[31m-  background: var(--accent-bg);[m
+[31m-  border: 2px solid transparent;[m
+[31m-  transition: border-color 0.3s;[m
+[31m-  margin-bottom: 24px;[m
+[31m-[m
+[31m-  &:hover {[m
+[31m-    border-color: var(--accent-border);[m
+[31m-  }[m
+[31m-  &:focus-visible {[m
+[31m-    outline: 2px solid var(--accent);[m
+[31m-    outline-offset: 2px;[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-.hero {[m
+[31m-  position: relative;[m
+[31m-[m
+[31m-  .base,[m
+[31m-  .framework,[m
+[31m-  .vite {[m
+[31m-    inset-inline: 0;[m
+[31m-    margin: 0 auto;[m
+[31m-  }[m
+[31m-[m
+[31m-  .base {[m
+[31m-    width: 170px;[m
+[31m-    position: relative;[m
+[31m-    z-index: 0;[m
+[31m-  }[m
+[31m-[m
+[31m-  .framework,[m
+[31m-  .vite {[m
+[31m-    position: absolute;[m
+[31m-  }[m
+[31m-[m
+[31m-  .framework {[m
+[31m-    z-index: 1;[m
+[31m-    top: 34px;[m
+[31m-    height: 28px;[m
+[31m-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)[m
+[31m-      scale(1.4);[m
+[31m-  }[m
+[31m-[m
+[31m-  .vite {[m
+[31m-    z-index: 0;[m
+[31m-    top: 107px;[m
+[31m-    height: 26px;[m
+[31m-    width: auto;[m
+[31m-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)[m
+[31m-      scale(0.8);[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#center {[m
+[31m-  display: flex;[m
+[31m-  flex-direction: column;[m
+[31m-  gap: 25px;[m
+[31m-  place-content: center;[m
+[31m-  place-items: center;[m
+[31m-  flex-grow: 1;[m
+[31m-[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    padding: 32px 20px 24px;[m
+[31m-    gap: 18px;[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#next-steps {[m
+[31m-  display: flex;[m
+[31m-  border-top: 1px solid var(--border);[m
+[31m-  text-align: left;[m
+[31m-[m
+[31m-  & > div {[m
+[31m-    flex: 1 1 0;[m
+[31m-    padding: 32px;[m
+[31m-    @media (max-width: 1024px) {[m
+[31m-      padding: 24px 20px;[m
+[31m-    }[m
+[31m-  }[m
+[31m-[m
+[31m-  .icon {[m
+[31m-    margin-bottom: 16px;[m
+[31m-    width: 22px;[m
+[31m-    height: 22px;[m
+[31m-  }[m
+[31m-[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    flex-direction: column;[m
+[31m-    text-align: center;[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#docs {[m
+[31m-  border-right: 1px solid var(--border);[m
+[31m-[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    border-right: none;[m
+[31m-    border-bottom: 1px solid var(--border);[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#next-steps ul {[m
+[31m-  list-style: none;[m
+[31m-  padding: 0;[m
+[31m-  display: flex;[m
+[31m-  gap: 8px;[m
+[31m-  margin: 32px 0 0;[m
+[31m-[m
+[31m-  .logo {[m
+[31m-    height: 18px;[m
+[31m-  }[m
+[31m-[m
+[31m-  a {[m
+[31m-    color: var(--text-h);[m
+[31m-    font-size: 16px;[m
+[31m-    border-radius: 6px;[m
+[31m-    background: var(--social-bg);[m
+[31m-    display: flex;[m
+[31m-    padding: 6px 12px;[m
+[31m-    align-items: center;[m
+[31m-    gap: 8px;[m
+[31m-    text-decoration: none;[m
+[31m-    transition: box-shadow 0.3s;[m
+[31m-[m
+[31m-    &:hover {[m
+[31m-      box-shadow: var(--shadow);[m
+[31m-    }[m
+[31m-    .button-icon {[m
+[31m-      height: 18px;[m
+[31m-      width: 18px;[m
+[31m-    }[m
+[31m-  }[m
+[31m-[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    margin-top: 20px;[m
+[31m-    flex-wrap: wrap;[m
+[31m-    justify-content: center;[m
+[31m-[m
+[31m-    li {[m
+[31m-      flex: 1 1 calc(50% - 8px);[m
+[31m-    }[m
+[31m-[m
+[31m-    a {[m
+[31m-      width: 100%;[m
+[31m-      justify-content: center;[m
+[31m-      box-sizing: border-box;[m
+[31m-    }[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#spacer {[m
+[31m-  height: 88px;[m
+[31m-  border-top: 1px solid var(--border);[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    height: 48px;[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-.ticks {[m
+[31m-  position: relative;[m
+[31m-  width: 100%;[m
+[31m-[m
+[31m-  &::before,[m
+[31m-  &::after {[m
+[31m-    content: '';[m
+[31m-    position: absolute;[m
+[31m-    top: -4.5px;[m
+[31m-    border: 5px solid transparent;[m
+[31m-  }[m
+[31m-[m
+[31m-  &::before {[m
+[31m-    left: 0;[m
+[31m-    border-left-color: var(--border);[m
+[31m-  }[m
+[31m-  &::after {[m
+[31m-    right: 0;[m
+[31m-    border-right-color: var(--border);[m
+[31m-  }[m
+[31m-}[m
+[1mdiff --git a/src/App.tsx b/src/App.tsx[m
+[1mindex a66b5ef..8eb84af 100644[m
+[1m--- a/src/App.tsx[m
+[1m+++ b/src/App.tsx[m
+[36m@@ -1,120 +1,9 @@[m
+[31m-import { useState } from 'react'[m
+[31m-import reactLogo from './assets/react.svg'[m
+[31m-import viteLogo from './assets/vite.svg'[m
+[31m-import heroImg from './assets/hero.png'[m
+[31m-import './App.css'[m
+[31m-[m
+[32m+[m[32mimport LandingPage from './components/Pages/LandingPage';[m
+ function App() {[m
+[31m-  const [count, setCount] = useState(0)[m
+ [m
+   return ([m
+     <>[m
+[31m-      <section id="center">[m
+[31m-        <div className="hero">[m
+[31m-          <img src={heroImg} className="base" width="170" height="179" alt="" />[m
+[31m-          <img src={reactLogo} className="framework" alt="React logo" />[m
+[31m-          <img src={viteLogo} className="vite" alt="Vite logo" />[m
+[31m-        </div>[m
+[31m-        <div>[m
+[31m-          <h1>Get started</h1>[m
+[31m-          <p>[m
+[31m-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>[m
+[31m-          </p>[m
+[31m-        </div>[m
+[31m-        <button[m
+[31m-          type="button"[m
+[31m-          className="counter"[m
+[31m-          onClick={() => setCount((count) => count + 1)}[m
+[31m-        >[m
+[31m-          Count is {count}[m
+[31m-        </button>[m
+[31m-      </section>[m
+[31m-[m
+[31m-      <div className="ticks"></div>[m
+[31m-[m
+[31m-      <section id="next-steps">[m
+[31m-        <div id="docs">[m
+[31m-          <svg className="icon" role="presentation" aria-hidden="true">[m
+[31m-            <use href="/icons.svg#documentation-icon"></use>[m
+[31m-          </svg>[m
+[31m-          <h2>Documentation</h2>[m
+[31m-          <p>Your questions, answered</p>[m
+[31m-          <ul>[m
+[31m-            <li>[m
+[31m-              <a href="https://vite.dev/" target="_blank">[m
+[31m-                <img className="logo" src={viteLogo} alt="" />[m
+[31m-                Explore Vite[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-            <li>[m
+[31m-              <a href="https://react.dev/" target="_blank">[m
+[31m-                <img className="button-icon" src={reactLogo} alt="" />[m
+[31m-                Learn more[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-          </ul>[m
+[31m-        </div>[m
+[31m-        <div id="social">[m
+[31m-          <svg className="icon" role="presentation" aria-hidden="true">[m
+[31m-            <use href="/icons.svg#social-icon"></use>[m
+[31m-          </svg>[m
+[31m-          <h2>Connect with us</h2>[m
+[31m-          <p>Join the Vite community</p>[m
+[31m-          <ul>[m
+[31m-            <li>[m
+[31m-              <a href="https://github.com/vitejs/vite" target="_blank">[m
+[31m-                <svg[m
+[31m-                  className="button-icon"[m
+[31m-                  role="presentation"[m
+[31m-                  aria-hidden="true"[m
+[31m-                >[m
+[31m-                  <use href="/icons.svg#github-icon"></use>[m
+[31m-                </svg>[m
+[31m-                GitHub[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-            <li>[m
+[31m-              <a href="https://chat.vite.dev/" target="_blank">[m
+[31m-                <svg[m
+[31m-                  className="button-icon"[m
+[31m-                  role="presentation"[m
+[31m-                  aria-hidden="true"[m
+[31m-                >[m
+[31m-                  <use href="/icons.svg#discord-icon"></use>[m
+[31m-                </svg>[m
+[31m-                Discord[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-            <li>[m
+[31m-              <a href="https://x.com/vite_js" target="_blank">[m
+[31m-                <svg[m
+[31m-                  className="button-icon"[m
+[31m-                  role="presentation"[m
+[31m-                  aria-hidden="true"[m
+[31m-                >[m
+[31m-                  <use href="/icons.svg#x-icon"></use>[m
+[31m-                </svg>[m
+[31m-                X.com[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-            <li>[m
+[31m-              <a href="https://bsky.app/profile/vite.dev" target="_blank">[m
+[31m-                <svg[m
+[31m-                  className="button-icon"[m
+[31m-                  role="presentation"[m
+[31m-                  aria-hidden="true"[m
+[31m-                >[m
+[31m-                  <use href="/icons.svg#bluesky-icon"></use>[m
+[31m-                </svg>[m
+[31m-                Bluesky[m
+[31m-              </a>[m
+[31m-            </li>[m
+[31m-          </ul>[m
+[31m-        </div>[m
+[31m-      </section>[m
+[31m-[m
+[31m-      <div className="ticks"></div>[m
+[31m-      <section id="spacer"></section>[m
+[32m+[m[32m      <LandingPage />[m
+     </>[m
+   )[m
+ }[m
+[1mdiff --git a/src/components/Forms/Cadastro.jsx b/src/components/Forms/Cadastro.jsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/src/components/Forms/Login.jsx b/src/components/Forms/Login.jsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/src/components/Pages/LandingPage.tsx b/src/components/Pages/LandingPage.tsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2c63770[m
+[1m--- /dev/null[m
+[1m+++ b/src/components/Pages/LandingPage.tsx[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32mimport Navbar from "../ui/NavBar";[m
+[32m+[m[32mconst LandingPage = () => {[m
+[32m+[m[32mreturn([m
+[32m+[m[32m    <div>[m
+[32m+[m[32m    <Navbar />[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m    );[m[41m [m
+[32m+[m[32m};[m
+[32m+[m[32mexport default LandingPage;[m
+[32m+[m
+[1mdiff --git a/src/components/ui/NavBar.tsx b/src/components/ui/NavBar.tsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..7e1e427[m
+[1m--- /dev/null[m
+[1m+++ b/src/components/ui/NavBar.tsx[m
+[36m@@ -0,0 +1,66 @@[m
+[32m+[m[32m//import { useState } from "react";[m
+[32m+[m[32mimport { ShoppingCart } from "lucide-react";[m
+[32m+[m
+[32m+[m
+[32m+[m[32mfunction Navbar() {[m
+[32m+[m
+[32m+[m[32m  //const [menuAberto, setMenuAberto] = useState(false); -> Hook para implementação de menu mobile[m
+[32m+[m
+[32m+[m[32m  return ([m
+[32m+[m[32m    /*[m
+[32m+[m[32m      No React, usamos className no lugar de class.[m
+[32m+[m
+[32m+[m[32m      Aqui estamos usando Tailwind CSS.[m
+[32m+[m[32m      Tailwind funciona com classes pequenas, e cada classe faz uma coisa.[m
+[32m+[m
+[32m+[m[32m      flex             -> coloca os elementos lado a lado[m
+[32m+[m[32m      justify-between  -> coloca o primeiro item na esquerda e o segundo na direita[m
+[32m+[m[32m      p-4              -> adiciona espaco interno em todos os lados[m
+[32m+[m[32m      bg-black         -> deixa o fundo preto[m
+[32m+[m[32m      text-white       -> deixa o texto branco[m
+[32m+[m[32m    */[m
+[32m+[m[32m    <header className="flex justify-between p-4 bg-white text-black shadow-md">[m
+[32m+[m[32m      {/*[m
+[32m+[m[32m        Este link funciona como a logo da loja.[m
+[32m+[m
+[32m+[m[32m        text-xl    -> aumenta um pouco o tamanho do texto[m
+[32m+[m[32m        font-bold  -> deixa o texto em negrito[m
+[32m+[m[32m      */}[m
+[32m+[m[32m      <a href="#" className="text-xl font-bold">[m
+[32m+[m[32m        Minha Loja[m
+[32m+[m[32m      </a>[m
+[32m+[m
+[32m+[m[32m      {/*[m
+[32m+[m[32m        A tag nav representa uma area de navegacao.[m
+[32m+[m
+[32m+[m[32m        flex   -> deixa os links um ao lado do outro[m
+[32m+[m[32m        gap-4  -> coloca espaco entre os links[m
+[32m+[m[32m      */}[m
+[32m+[m[32m      {/* {menuAberto && ( -> para implementar menu mobile */}[m
+[32m+[m[32m      <nav className="flex gap-5">[m
+[32m+[m[41m        [m
+[32m+[m[32m        <a href="#home">Inicio</a>[m
+[32m+[m[32m        <a href="#produtos">Produtos</a>[m
+[32m+[m[32m        <a href="#sobre">Sobre</a>[m
+[32m+[m[32m        <a href="#contato">Contato</a>[m
+[32m+[m[32m      </nav>[m
+[32m+[m
+[32m+[m[32m        <button className="shadow-lg bg-black flex itens-center gap-2 px-4 py-2 rounded text-white">[m
+[32m+[m[32m          <ShoppingCart size={22} />[m
+[32m+[m[32m          <span>Carrinho</span>[m
+[32m+[m[32m        </button>[m
+[32m+[m
+[32m+[m[32m      {/*)} -> implementação botão*/}[m
+[32m+[m[32m      {/*<button  //onClick={() => setMenuAberto(!menuAberto)} --> implementação futura do botão[m
+[32m+[m[32m        className="group flex flex-col gap-1 rounded p-2 transition  hover:shadow">[m
+[32m+[m
+[32m+[m[32m <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>[m
+[32m+[m[32m  <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>[m
+[32m+[m[32m  <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>[m
+[32m+[m[32m</button> */}[m
+[32m+[m[41m      [m
+[32m+[m[32m    </header>[m
+[32m+[m[32m  );[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mexport default Navbar;[m
+[1mdiff --git a/src/index.css b/src/index.css[m
+[1mindex 5fb3313..f1d8c73 100644[m
+[1m--- a/src/index.css[m
+[1m+++ b/src/index.css[m
+[36m@@ -1,111 +1 @@[m
+[31m-:root {[m
+[31m-  --text: #6b6375;[m
+[31m-  --text-h: #08060d;[m
+[31m-  --bg: #fff;[m
+[31m-  --border: #e5e4e7;[m
+[31m-  --code-bg: #f4f3ec;[m
+[31m-  --accent: #aa3bff;[m
+[31m-  --accent-bg: rgba(170, 59, 255, 0.1);[m
+[31m-  --accent-border: rgba(170, 59, 255, 0.5);[m
+[31m-  --social-bg: rgba(244, 243, 236, 0.5);[m
+[31m-  --shadow:[m
+[31m-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;[m
+[31m-[m
+[31m-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;[m
+[31m-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;[m
+[31m-  --mono: ui-monospace, Consolas, monospace;[m
+[31m-[m
+[31m-  font: 18px/145% var(--sans);[m
+[31m-  letter-spacing: 0.18px;[m
+[31m-  color-scheme: light dark;[m
+[31m-  color: var(--text);[m
+[31m-  background: var(--bg);[m
+[31m-  font-synthesis: none;[m
+[31m-  text-rendering: optimizeLegibility;[m
+[31m-  -webkit-font-smoothing: antialiased;[m
+[31m-  -moz-osx-font-smoothing: grayscale;[m
+[31m-[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    font-size: 16px;[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-@media (prefers-color-scheme: dark) {[m
+[31m-  :root {[m
+[31m-    --text: #9ca3af;[m
+[31m-    --text-h: #f3f4f6;[m
+[31m-    --bg: #16171d;[m
+[31m-    --border: #2e303a;[m
+[31m-    --code-bg: #1f2028;[m
+[31m-    --accent: #c084fc;[m
+[31m-    --accent-bg: rgba(192, 132, 252, 0.15);[m
+[31m-    --accent-border: rgba(192, 132, 252, 0.5);[m
+[31m-    --social-bg: rgba(47, 48, 58, 0.5);[m
+[31m-    --shadow:[m
+[31m-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;[m
+[31m-  }[m
+[31m-[m
+[31m-  #social .button-icon {[m
+[31m-    filter: invert(1) brightness(2);[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-#root {[m
+[31m-  width: 1126px;[m
+[31m-  max-width: 100%;[m
+[31m-  margin: 0 auto;[m
+[31m-  text-align: center;[m
+[31m-  border-inline: 1px solid var(--border);[m
+[31m-  min-height: 100svh;[m
+[31m-  display: flex;[m
+[31m-  flex-direction: column;[m
+[31m-  box-sizing: border-box;[m
+[31m-}[m
+[31m-[m
+[31m-body {[m
+[31m-  margin: 0;[m
+[31m-}[m
+[31m-[m
+[31m-h1,[m
+[31m-h2 {[m
+[31m-  font-family: var(--heading);[m
+[31m-  font-weight: 500;[m
+[31m-  color: var(--text-h);[m
+[31m-}[m
+[31m-[m
+[31m-h1 {[m
+[31m-  font-size: 56px;[m
+[31m-  letter-spacing: -1.68px;[m
+[31m-  margin: 32px 0;[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    font-size: 36px;[m
+[31m-    margin: 20px 0;[m
+[31m-  }[m
+[31m-}[m
+[31m-h2 {[m
+[31m-  font-size: 24px;[m
+[31m-  line-height: 118%;[m
+[31m-  letter-spacing: -0.24px;[m
+[31m-  margin: 0 0 8px;[m
+[31m-  @media (max-width: 1024px) {[m
+[31m-    font-size: 20px;[m
+[31m-  }[m
+[31m-}[m
+[31m-p {[m
+[31m-  margin: 0;[m
+[31m-}[m
+[31m-[m
+[31m-code,[m
+[31m-.counter {[m
+[31m-  f
