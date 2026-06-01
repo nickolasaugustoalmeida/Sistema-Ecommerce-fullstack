@@ -41,6 +41,7 @@ function Navbar() {
         
         <a href="#home">Inicio</a>
         <a href="#produtos">Produtos</a>
+        <a href="#crud-produtos">Gerenciamento de produtos</a>
         <a href="#sobre">Sobre</a>
         <a href="#acesso">Acesso</a>
       </nav>

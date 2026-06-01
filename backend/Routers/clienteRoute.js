@@ -1,20 +1,38 @@
-import Router from 'express'
+import express from 'express'
+import databasecontrollers from '../controllers/databasecontrollers.js'
 
-const router = Router()
+/*
+  Router cria um "mini app" de rotas.
 
-router.get('/cliente' ,(req, res) => {
-    res.send('Listando os dados')
+  O express() cria o servidor principal.
+  O express.Router() cria um conjunto de rotas separado.
+*/
+const router = express.Router()
+
+router.get('/cliente', async (req, res) => {
+    try {
+        const resposta = await databasecontrollers.buscar()
+        res.json(resposta)
+    } catch (error) {
+        res.status(500).json({ erro: 'Erro ao buscar clientes' })
+    }
 })
-router.post('/cliente' ,(req, res) => {
-    res.send('Criando novos dados')
+
+router.post('/cliente', (req, res) => {
+    const resposta = databasecontrollers.criar()
+    res.send(resposta)
 })
-router.get('/cliente/:id' ,(req, res) => {
+
+router.get('/cliente/:id', (req, res) => {
     const { id } = req.params
-    res.send(`Este é o cliente ${id}`)
+    const resposta = databasecontrollers.atualizar(id)
+    res.send(resposta)
 })
-router.delete('/cliente/:id' ,(req, res) => {
+
+router.delete('/cliente/:id', (req, res) => {
     const { id } = req.params
-    res.send(`Chegou os dados ${id}`)
-});
+    const resposta = databasecontrollers.deletar(id)
+    res.send(resposta)
+})
 
 export default router

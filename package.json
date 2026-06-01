@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "backend": "node backend/server.js",
-    "backend:watch": "node --watch backend/server.js",
+    "backend": "node backend/index.js",
+    "backend:watch": "node --watch backend/index.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -19,6 +19,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "lucide-react": "^1.17.0",
+    "mysql": "^2.18.1",
     "mysql2": "^3.22.4",
     "nodemon": "^3.1.14",
     "react": "^19.2.6",
