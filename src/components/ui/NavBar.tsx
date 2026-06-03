@@ -1,65 +1,74 @@
-//import { useState } from "react";
-import { ShoppingCart } from "lucide-react";
-
+import {
+  Search,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "lucide-react";
+import { Link, NavLink } from "react-router";
 
 function Navbar() {
-
-  //const [menuAberto, setMenuAberto] = useState(false); -> Hook para implementação de menu mobile
-
   return (
-    /*
-      No React, usamos className no lugar de class.
+    <header className="border-b border-slate-200 bg-white">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="rounded-xl bg-red-600 p-2 text-white">
+            <ShoppingBag size={20} />
+          </div>
 
-      Aqui estamos usando Tailwind CSS.
-      Tailwind funciona com classes pequenas, e cada classe faz uma coisa.
+          <span className="text-lg font-bold text-slate-900">
+            Minha<span className="text-red-600">Loja</span>
+          </span>
+        </Link>
 
-      flex             -> coloca os elementos lado a lado
-      justify-between  -> coloca o primeiro item na esquerda e o segundo na direita
-      p-4              -> adiciona espaco interno em todos os lados
-      bg-black         -> deixa o fundo preto
-      text-white       -> deixa o texto branco
-    */
-    <header className="flex justify-between p-4 bg-white text-black shadow-md">
-      {/*
-        Este link funciona como a logo da loja.
+        <nav className="hidden items-center gap-8 md:flex">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "border-b-2 border-red-600 pb-1 font-semibold text-slate-950"
+                : "pb-1 font-semibold text-slate-500 transition hover:text-slate-950"
+            }
+          >
+            Inicio
+          </NavLink>
 
-        text-xl    -> aumenta um pouco o tamanho do texto
-        font-bold  -> deixa o texto em negrito
-      */}
-      <a href="#" className="text-xl font-bold">
-        Minha Loja
-      </a>
+          <NavLink
+            to="/produtos"
+            className={({ isActive }) =>
+              isActive
+                ? "border-b-2 border-red-600 pb-1 font-semibold text-slate-950"
+                : "pb-1 font-semibold text-slate-500 transition hover:text-slate-950"
+            }
+          >
+            Produtos
+          </NavLink>
 
-      {/*
-        A tag nav representa uma area de navegacao.
+          <NavLink
+            to="/admin/produtos"
+            className={({ isActive }) =>
+              isActive
+                ? "border-b-2 border-red-600 pb-1 font-semibold text-slate-950"
+                : "pb-1 font-semibold text-slate-500 transition hover:text-slate-950"
+            }
+          >
+            Categorias
+          </NavLink>
+        </nav>
 
-        flex   -> deixa os links um ao lado do outro
-        gap-4  -> coloca espaco entre os links
-      */}
-      {/* {menuAberto && ( -> para implementar menu mobile */}
-      <nav className="flex gap-5">
-        
-        <a href="#home">Inicio</a>
-        <a href="#produtos">Produtos</a>
-        <a href="#crud-produtos">Gerenciamento de produtos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#acesso">Acesso</a>
-      </nav>
+        <div className="flex items-center gap-4 text-slate-950">
+          <button className="rounded-full p-2 transition hover:bg-slate-100">
+            <Search size={20} />
+          </button>
 
-        <button className="shadow-lg bg-black flex items-center gap-2 px-4 py-2 rounded text-white transition hover:scale-105 hover:bg-slate-900 hover:shadow-slate-300">
-          <ShoppingCart size={22} />
-          <span>Carrinho</span>
-        </button>
+          <button className="rounded-full p-2 transition hover:bg-slate-100">
+            <User size={20} />
+          </button>
 
-      {/*)} -> implementação botão*/}
-      {/*<button  //onClick={() => setMenuAberto(!menuAberto)} --> implementação futura do botão
-        className="group flex flex-col gap-1 rounded p-2 transition  hover:shadow">
-
- <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>
-  <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>
-  <span className="block h-1 w-6 bg-black transition group-hover:bg-slate-700"></span>
-</button> */}
-      
+          <button className="rounded-full p-2 transition hover:bg-slate-100">
+            <ShoppingCart size={20} />
+          </button>
+        </div>
+      </div>
     </header>
   );
 }
