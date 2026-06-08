@@ -196,7 +196,7 @@ function LandingPage() {
               </div>
 
               <a
-  
+                href="/produtos"
                 className="flex items-center gap-2 font-semibold text-slate-950 transition hover:text-red-600"
               >
                 Ver tudo
