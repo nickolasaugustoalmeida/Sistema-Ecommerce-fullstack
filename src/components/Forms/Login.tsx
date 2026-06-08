@@ -1,6 +1,6 @@
 import { Link } from "react-router"
 import {ArrowLeft} from "lucide-react"
-function Cadastro(){
+function Login(){
     return(
 
          <main className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -9,14 +9,9 @@ function Cadastro(){
            <ArrowLeft size={20}/> Voltar
         </Link>
         <h1 className="text-2xl font-bold text-slate-900">
-          Criar conta
+          Entrar
         </h1>
 
-        <input
-          type="text"
-          placeholder="Nome"
-          className="rounded border border-slate-300 p-3 outline-none focus:border-red-500"
-        />
 
         <input
           type="email"
@@ -31,11 +26,11 @@ function Cadastro(){
         />
 
         <button className="rounded bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700">
-          Cadastrar
+          Entrar
         </button>
-        
+        <p>Não possui uma conta? <span className="text-blue-700 cursor-pointer">Clique aqui</span></p>
       </form>
     </main>
 
     )
-} export default Cadastro
+} export default Login
