@@ -1,5 +1,6 @@
 import express from 'express'
 import produtoController from '../controllers/produtoController.js'
+import autenticarVendedor from '../middlewares/autenticarVendedor.js'
 
 /*
   Rotas de produtos.
@@ -16,7 +17,7 @@ import produtoController from '../controllers/produtoController.js'
 const router = express.Router()
 
 router.get('/produtos', produtoController.listar)
-router.post('/produtos', produtoController.criar)
-router.delete('/produtos/:id', produtoController.remover)
+router.post('/produtos', autenticarVendedor, produtoController.criar)
+router.delete('/produtos/:id', autenticarVendedor, produtoController.remover)
 
 export default router

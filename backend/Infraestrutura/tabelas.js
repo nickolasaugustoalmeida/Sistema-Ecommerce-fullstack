@@ -1,12 +1,29 @@
 class Tabelas {
-    init(conexao) {
+    async init(conexao) {
         this.conexao = conexao
-        this.criarTabelaClientes()
-        this.criarTabelaProdutos()
-        this.ajustarTabelaProdutos()
+
+        await this.criarTabelaClientes()
+        await this.criarTabelaVendedores()
+        await this.criarTabelaProdutos()
+        await this.criarTabelaSessoesClientes()
+        await this.criarTabelaSessoesVendedores()
+        await this.ajustarTabelaProdutos()
     }
 
-    criarTabelaClientes() {
+    executar(sql) {
+        return new Promise((resolve, reject) => {
+            this.conexao.query(sql, (error, resultado) => {
+                if (error) {
+                    reject(error)
+                    return
+                }
+
+                resolve(resultado)
+            })
+        })
+    }
+
+    async criarTabelaClientes() {
         const sql = `
             CREATE TABLE IF NOT EXISTS clientes (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -17,18 +34,64 @@ class Tabelas {
             );
         `
 
-        this.conexao.query(sql, (error) => {
-            if (error) {
-                console.log('Deu erro na hora de criar a tabela')
-                console.log(error.message)
-                return
-            }
-
-            console.log('criou as tabelas com sucesso')
-        })
+        await this.executar(sql)
+        console.log('Tabela clientes pronta')
     }
 
-    criarTabelaProdutos() {
+    async criarTabelaVendedores() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS vendedores (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nome_loja VARCHAR(120) NOT NULL,
+                nome_responsavel VARCHAR(120) NOT NULL,
+                email VARCHAR(160) NOT NULL UNIQUE,
+                telefone VARCHAR(30),
+                senha_hash VARCHAR(255) NOT NULL,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `
+
+        await this.executar(sql)
+        console.log('Tabela vendedores pronta')
+    }
+
+    async criarTabelaSessoesClientes() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS cliente_sessoes (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                cliente_id INT NOT NULL,
+                token_hash CHAR(64) NOT NULL UNIQUE,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                expira_em DATETIME NOT NULL,
+                FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+                INDEX idx_cliente_sessoes_token_hash (token_hash),
+                INDEX idx_cliente_sessoes_cliente_id (cliente_id)
+            );
+        `
+
+        await this.executar(sql)
+        console.log('Tabela de sessoes pronta')
+    }
+
+    async criarTabelaSessoesVendedores() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS vendedor_sessoes (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                vendedor_id INT NOT NULL,
+                token_hash CHAR(64) NOT NULL UNIQUE,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                expira_em DATETIME NOT NULL,
+                FOREIGN KEY (vendedor_id) REFERENCES vendedores(id) ON DELETE CASCADE,
+                INDEX idx_vendedor_sessoes_token_hash (token_hash),
+                INDEX idx_vendedor_sessoes_vendedor_id (vendedor_id)
+            );
+        `
+
+        await this.executar(sql)
+        console.log('Tabela de sessoes de vendedores pronta')
+    }
+
+    async criarTabelaProdutos() {
         const sql = `
             CREATE TABLE IF NOT EXISTS produtos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,18 +105,11 @@ class Tabelas {
             );
         `
 
-        this.conexao.query(sql, (error) => {
-            if (error) {
-                console.log('Deu erro na hora de criar a tabela produtos')
-                console.log(error.message)
-                return
-            }
-
-            console.log('criou a tabela produtos com sucesso')
-        })
+        await this.executar(sql)
+        console.log('Tabela produtos pronta')
     }
 
-    ajustarTabelaProdutos() {
+    async ajustarTabelaProdutos() {
         /*
           Seu banco ja tinha uma tabela produtos de outro teste.
           Ela tinha vendedor_id obrigatorio.
@@ -66,13 +122,17 @@ class Tabelas {
             'ALTER TABLE produtos ADD COLUMN categoria VARCHAR(80)',
         ]
 
-        ajustes.forEach((sql) => {
-            this.conexao.query(sql, (error) => {
-                if (error) {
-                    return
+        for (const sql of ajustes) {
+            try {
+                await this.executar(sql)
+            } catch (error) {
+                const erroEsperado = ['ER_BAD_FIELD_ERROR', 'ER_DUP_FIELDNAME'].includes(error.code)
+
+                if (!erroEsperado) {
+                    throw error
                 }
-            })
-        })
+            }
+        }
     }
 }
 

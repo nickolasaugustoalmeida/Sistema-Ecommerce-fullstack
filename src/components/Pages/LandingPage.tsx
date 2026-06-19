@@ -6,10 +6,16 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import HERO from "../../assets/hero.png";
 import IMG from "../../assets/images.jpg";
 import IMG2 from "../../assets/download.jpg";
 import Navbar from "../ui/NavBar";
+import {
+  buscarUsuarioLogado,
+  logoutUsuario,
+  type Usuario,
+} from "../../services/auth";
 
 const produtosEmDestaque = [
   {
@@ -51,9 +57,40 @@ const produtosEmDestaque = [
 ];
 
 function LandingPage() {
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+
+  useEffect(() => {
+    let componenteAtivo = true;
+
+    async function verificarLogin() {
+      try {
+        const usuarioLogado = await buscarUsuarioLogado();
+
+        if (componenteAtivo) {
+          setUsuario(usuarioLogado);
+        }
+      } catch {
+        if (componenteAtivo) {
+          setUsuario(null);
+        }
+      }
+    }
+
+    void verificarLogin();
+
+    return () => {
+      componenteAtivo = false;
+    };
+  }, []);
+
+  async function sairDaConta() {
+    await logoutUsuario();
+    setUsuario(null);
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar usuario={usuario} onLogout={sairDaConta} />
 
       <main className="min-h-screen bg-slate-50">
         <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-8 py-24 lg:grid-cols-2">

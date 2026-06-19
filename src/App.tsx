@@ -4,6 +4,8 @@ import Catalogo from './components/Pages/Catalogo';
 import ProdutosAdmin from './components/Pages/ProdutosAdmin';
 import Cadastro from './components/Forms/Cadastro.tsx';
 import Login from './components/Forms/Login.tsx'
+import LoginVendedor from './components/Forms/LoginVendedor.tsx'
+import CadastroVendedor from './components/Forms/CadastroVendedor.tsx'
 
 function App() {
 
@@ -12,6 +14,8 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/vendedor/login" element={<LoginVendedor />} />
+      <Route path="/vendedor/cadastro" element={<CadastroVendedor />} />
       <Route path="/produtos" element={<Catalogo />} />
       <Route path="/admin/produtos" element={<ProdutosAdmin />} />
     </Routes>

@@ -1,4 +1,5 @@
 import {
+  LogOut,
   Search,
   ShoppingBag,
   ShoppingCart,
@@ -6,9 +7,30 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router";
+import type { Usuario } from "../../services/auth";
 
-function Navbar() {
+type NavbarProps = {
+  usuario?: Usuario | null;
+  onLogout?: () => void | Promise<void>;
+};
+
+function formatarDataCadastro(dataCadastro?: string) {
+  if (!dataCadastro) {
+    return "Nao informado";
+  }
+
+  const data = new Date(dataCadastro);
+
+  if (Number.isNaN(data.getTime())) {
+    return dataCadastro;
+  }
+
+  return new Intl.DateTimeFormat("pt-BR").format(data);
+}
+
+function Navbar({ usuario = null, onLogout }: NavbarProps) {
   const [menuUsuarioAberto, setMenuUsuarioAberto] = useState(false);
+  const inicialUsuario = usuario?.nome.charAt(0).toUpperCase();
 
   return (
     <header className="border-b border-slate-200 bg-white">
@@ -67,37 +89,85 @@ function Navbar() {
             <button
               type="button"
               onClick={() => setMenuUsuarioAberto(!menuUsuarioAberto)}
-              className="rounded-full p-2 transition hover:bg-slate-100"
-              aria-label="Abrir menu do usuario"
+              className="flex h-10 w-10 items-center justify-center rounded-full transition hover:bg-slate-100"
+              aria-label={usuario ? "Abrir menu da conta" : "Abrir menu do usuario"}
             >
-              <User size={20} />
+              {inicialUsuario ? (
+                <span className="text-sm font-bold text-red-600">{inicialUsuario}</span>
+              ) : (
+                <User size={20} />
+              )}
             </button>
 
             {menuUsuarioAberto && (
-              <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
-                <Link
-                  to="/login"
-                  onClick={() => setMenuUsuarioAberto(false)}
-                  className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-                >
-                  Entrar
-                </Link>
+              <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+                {usuario ? (
+                  <>
+                    <div className="border-b border-slate-100 px-4 py-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-red-600">
+                        Minha conta
+                      </p>
 
-                <Link
-                  to="/cadastro"
-                  onClick={() => setMenuUsuarioAberto(false)}
-                  className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-                >
-                  Criar conta
-                </Link>
+                      <div className="mt-3 space-y-3">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Nome
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-slate-950">{usuario.nome}</p>
+                        </div>
 
-                <Link
-                  to="/admin/produtos"
-                  onClick={() => setMenuUsuarioAberto(false)}
-                  className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-                >
-                  Area do vendedor
-                </Link>
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Email
+                          </p>
+                          <p className="mt-1 break-words text-sm font-semibold text-slate-950">
+                            {usuario.email}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Cliente desde
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-slate-950">
+                            {formatarDataCadastro(usuario.criado_em)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuUsuarioAberto(false);
+                        void onLogout?.();
+                      }}
+                      className="mt-2 flex w-full items-center gap-2 rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+                    >
+                      <LogOut size={16} />
+                      Sair
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setMenuUsuarioAberto(false)}
+                      className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+                    >
+                      Entrar
+                    </Link>
+
+                    <Link
+                      to="/cadastro"
+                      onClick={() => setMenuUsuarioAberto(false)}
+                      className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+                    >
+                      Criar conta
+                    </Link>
+                  </>
+                )}
+
               </div>
             )}
           </div>

@@ -10,7 +10,7 @@ import conexao from "../Infraestrutura/conexao.js"
 */
 class DatabaseModel {
     listar() {
-        const sql = 'SELECT * FROM clientes'
+        const sql = 'SELECT id, nome, email, criado_em FROM clientes ORDER BY id DESC'
 
         /*
           conexao.query usa callback.

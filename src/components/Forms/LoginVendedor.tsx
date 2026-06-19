@@ -2,9 +2,9 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ArrowLeft, Store } from "lucide-react";
-import { loginUsuario, salvarToken } from "../../services/auth";
+import { loginVendedor, salvarTokenVendedor } from "../../services/vendedorAuth";
 
-function Login() {
+function LoginVendedor() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -17,31 +17,40 @@ function Login() {
     setCarregando(true);
 
     try {
-      const resposta = await loginUsuario({ email, senha });
-      salvarToken(resposta.token);
-      navigate("/");
+      const resposta = await loginVendedor({ email, senha });
+      salvarTokenVendedor(resposta.token);
+      navigate("/admin/produtos");
     } catch (error) {
-      setErro(error instanceof Error ? error.message : "Erro ao entrar");
+      setErro(error instanceof Error ? error.message : "Erro ao entrar como vendedor");
     } finally {
       setCarregando(false);
     }
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50">
+    <main className="flex min-h-screen items-center justify-center bg-neutral-300 px-4">
       <form
         onSubmit={enviarLogin}
         className="flex w-full max-w-md flex-col gap-4 rounded-lg bg-white p-8 shadow"
       >
-        <Link to="/" className="flex text-sm font-semibold text-red-600 hover:text-red-700">
-          <ArrowLeft size={20} /> Voltar
+        <Link to="/login" className="flex text-sm font-semibold text-red-600 hover:text-red-700">
+          <ArrowLeft size={20} /> Voltar para login do cliente
         </Link>
 
-        <h1 className="text-2xl font-bold text-slate-900">Entrar</h1>
+        <div className="flex items-center gap-3">
+          <div className="rounded-lg bg-red-50 p-3 text-red-600">
+            <Store size={22} />
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-red-600">Area do vendedor</p>
+            <h1 className="text-2xl font-bold text-slate-900">Entrar na loja</h1>
+          </div>
+        </div>
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Email comercial"
           value={email}
           onChange={(evento) => setEmail(evento.target.value)}
           required
@@ -66,34 +75,19 @@ function Login() {
         <button
           type="submit"
           disabled={carregando}
-          className="rounded bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-red-300"
+          className="rounded bg-slate-950 px-4 py-3 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
         >
-          {carregando ? "Entrando..." : "Entrar"}
+          {carregando ? "Entrando..." : "Entrar como vendedor"}
         </button>
 
-        <Link to="/cadastro">
+        <Link to="/vendedor/cadastro">
           <p>
-            Nao possui uma conta? <span className="cursor-pointer text-blue-700">Clique aqui</span>
+            Ainda nao vende aqui? <span className="cursor-pointer text-blue-700">Cadastrar loja</span>
           </p>
         </Link>
-
-        <div className="mt-2 border-t border-slate-200 pt-4">
-          <p className="text-sm font-semibold text-slate-900">Area do vendedor</p>
-          <p className="mt-1 text-sm text-slate-500">
-            Use um acesso separado para gerenciar produtos e sua loja.
-          </p>
-
-          <Link
-            to="/vendedor/login"
-            className="mt-3 flex items-center justify-center gap-2 rounded border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-          >
-            <Store size={18} />
-            Entrar como vendedor
-          </Link>
-        </div>
       </form>
     </main>
   );
 }
 
-export default Login;
+export default LoginVendedor;
